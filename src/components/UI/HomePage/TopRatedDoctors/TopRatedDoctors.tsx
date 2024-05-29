@@ -10,10 +10,17 @@ import {
   Typography,
 } from "@mui/material";
 import Image from "next/image";
-// import LocationOnIcon from "@mui/icons-material/LocationOn";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 const TopRatedDoctors = async () => {
-  const res = await fetch("http://localhost:5000/api/v1/doctor?page=1&limit=3");
+  const res = await fetch(
+    "http://localhost:5000/api/v1/doctor?page=1&limit=3",
+    {
+      next: {
+        revalidate: 30,
+      },
+    }
+  );
   const { data: doctors } = await res.json();
   //   console.log(doctors);
   return (
@@ -54,11 +61,33 @@ const TopRatedDoctors = async () => {
                   <Typography gutterBottom variant="h5" component="div">
                     {doctor.name}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {doctor.qualification}, {doctor.designation}
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <span>
+                      {doctor.qualification}, {doctor.designation}
+                    </span>
+                    <span>{doctor.experience} years</span>
                   </Typography>
-                  <Typography variant="body2" color="text.secondary" mt={1}>
-                    {doctor.address}
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    mt={1}
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <span>
+                      <LocationOnIcon />
+                      {doctor.address}s
+                    </span>
+                    <span>{doctor.apointmentFee}$</span>
                   </Typography>
                 </CardContent>
                 <CardActions
