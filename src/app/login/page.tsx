@@ -12,7 +12,7 @@ import Image from "next/image";
 import assets from "@/assets";
 import Link from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
-// import { userLogin } from "@/services/actions/userLogin";
+import { userLogin } from "@/services/actions/userLogin";
 // import { storeUserInfo } from "@/services/auth.services";
 import { toast } from "sonner";
 import { Router } from "next/router";
@@ -34,16 +34,16 @@ const LoginPage = () => {
 
   const onSubmit: SubmitHandler<FormValues> = async (values) => {
     // console.log(values);
-    // try {
-    //   const res = await userLogin(values);
-    //   if (res?.data?.accessToken) {
-    //     toast.success(res?.message);
-    //     storeUserInfo({ accessToken: res?.data?.accessToken });
-    //     router.push("/");
-    //   }
-    // } catch (err: any) {
-    //   console.error(err.message);
-    // }
+    try {
+      const res = await userLogin(values);
+      if (res?.data?.accessToken) {
+        toast.success(res?.message);
+        // storeUserInfo({ accessToken: res?.data?.accessToken });
+        router.push("/");
+      }
+    } catch (err: any) {
+      console.error(err.message);
+    }
   };
 
   return (
